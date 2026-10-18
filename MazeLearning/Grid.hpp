@@ -13,6 +13,7 @@ class Grid
 private:
 	int width;
 	int height;
+
 	std::vector<CellType> cells;
 
 public:

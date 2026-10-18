@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="MazeLearning/MazeLearning.vcxproj" />
+  <Project Path="MazeLearning/MazeLearning.vcxproj" Id="cf049dd8-2061-4d3a-b69b-3acb2aa1c7e2" />
 </Solution>

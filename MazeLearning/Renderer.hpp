@@ -1,4 +1,4 @@
-#pragma
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include "Grid.hpp"
