@@ -1,22 +1,18 @@
 ﻿#include "Grid.hpp"
 #include "Renderer.hpp"
+#include "MazeGenerator.hpp"
 #include <SFML/Graphics.hpp>
 
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "Maze Learning");
+	sf::RenderWindow window(sf::VideoMode({ 1000, 800 }), "Maze Learning");
 
-	Grid grid(10, 10);
+	Grid grid(30, 30);
+	MazeGenerator generator;
+	generator.generatorDFS(grid);
 
-	grid.setCell(1, 1, CellType::Path);
-	grid.setCell(2, 1, CellType::Path);
-	grid.setCell(3, 1, CellType::Path);
-
-	grid.setCell(3, 2, CellType::Path);
-	grid.setCell(3, 3, CellType::Path);
-
-	Renderer renderer(40.0f);
+	Renderer renderer(28.0f);
 
 	while (window.isOpen())
 	{
@@ -25,6 +21,11 @@ int main()
 			if (event->is < sf::Event::Closed>())
 			{
 				window.close();
+			}
+			else if (const auto* key = event->getIf<sf::Event::KeyPressed>())
+			{
+				if (key->code == sf::Keyboard::Key::R)
+					generator.generatorDFS(grid);
 			}
 		}
 		window.clear(sf::Color::White);
