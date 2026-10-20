@@ -11,5 +11,6 @@ private:
 public:
 	MazeGenerator();
 
-	void generatorDFS(Grid& grid);
+	void generateDFS(Grid& grid);
+	void generatePrim(Grid& grid);
 };

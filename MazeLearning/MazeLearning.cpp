@@ -10,7 +10,7 @@ int main()
 
 	Grid grid(30, 30);
 	MazeGenerator generator;
-	generator.generatorDFS(grid);
+	generator.generateDFS(grid);
 
 	Renderer renderer(28.0f);
 
@@ -24,8 +24,10 @@ int main()
 			}
 			else if (const auto* key = event->getIf<sf::Event::KeyPressed>())
 			{
-				if (key->code == sf::Keyboard::Key::R)
-					generator.generatorDFS(grid);
+				if (key->code == sf::Keyboard::Key::D)
+					generator.generateDFS(grid);
+				else if (key->code == sf::Keyboard::Key::P)
+					generator.generatePrim(grid);
 			}
 		}
 		window.clear(sf::Color::White);
