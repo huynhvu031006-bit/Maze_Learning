@@ -25,3 +25,9 @@ void Grid::setCell(int x, int y, CellType type)
 {
 	cells[y * width + x] = type;
 }
+bool Grid::isWalkable(int x, int y) const
+{
+	if (x < 0 || x >= width || y < 0 || y >= height)
+		return false;
+	return cells[y * width + x] == CellType::Path;
+}

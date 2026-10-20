@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Grid.hpp"
-#include "random"
+#include <random>
 
 class MazeGenerator
 {

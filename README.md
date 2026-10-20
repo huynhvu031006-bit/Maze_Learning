@@ -17,17 +17,10 @@ Tìm hiểu cách xây dựng game 2D và các thuật toán tìm đường.
 ### Day 3
 Ý tưởng
 
-DFS giống con chuột chũi: đào một mạch dài, bí thì mới lùi.
+Nhân vật không cần class phức tạp, chỉ cần 2 con số: playerX, playerY là ô nó đang đứng. Bấm phím mũi tên thì làm 3 việc:
 
-Prim giống vết mực loang: bắt đầu từ một chấm nhỏ, rồi loang dần ra xung quanh, ở chỗ nào cũng được, không đi một mạch.
+Tính ô muốn đi tới (newX, newY).
+Hỏi: “ô đó đi được không?” (không phải tường, không ra ngoài lưới).
+Nếu được thì cập nhật vị trí, không thì đứng yên.
 
-Cách làm:
-
-Đào ô (1,1) làm điểm xuất phát.
-Ghi vào một danh sách biên (frontier) những ô tường cách mép vùng đã đào đúng 2 bước. Đây là “những chỗ có thể loang tới”.
-Bốc ngẫu nhiên một ô bất kỳ trong danh sách biên.
-Ô đó đang kề với vùng đã đào. Chọn một ô đã đào bên cạnh nó, đục bức tường ở giữa để nối lại, rồi biến ô đó thành đường.
-Thêm các ô tường mới xung quanh nó vào danh sách biên.
-Lặp lại cho đến khi danh sách biên rỗng.
-
-
+Bước 2 là chỗ quan trọng nhất. Ta viết nó thành một hàm riêng tên isWalkable (đi được không). Sau này BFS và A* cũng dùng đúng hàm này để hỏi “từ ô này đi sang ô hàng xóm được không”.

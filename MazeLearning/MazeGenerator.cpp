@@ -84,7 +84,7 @@ void MazeGenerator::generatePrim(Grid& grid)
 					&& !inFrontier[ny * w + nx])
 				{
 					frontier.push_back({ nx, ny });
-					inFrontier[ny * w + ny] = true;
+					inFrontier[ny * w + nx] = true;
 				}
 			}
 		};

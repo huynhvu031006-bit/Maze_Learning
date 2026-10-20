@@ -12,4 +12,6 @@ public:
 	Renderer(float cellSize);
 
 	void drawGrid(sf::RenderWindow& window, const Grid& grid);
+
+	void drawPlayer(sf::RenderWindow& window, int x, int y);
 };

@@ -32,3 +32,17 @@ void Renderer::drawGrid(sf::RenderWindow& window, const Grid& grid)
 		}
 	}
 }
+
+void Renderer::drawPlayer(sf::RenderWindow& window, int x, int y)
+{
+	sf::RectangleShape player;
+	player.setSize({ cellSize * 0.6f, cellSize * 0.6f, });
+
+	player.setPosition({
+		x * cellSize + cellSize * 0.2f,
+		y * cellSize + cellSize * 0.2f
+		});
+
+	player.setFillColor(sf::Color(0, 180, 0));
+	window.draw(player);
+}

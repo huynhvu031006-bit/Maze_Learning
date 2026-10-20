@@ -24,4 +24,6 @@ public:
 
 	CellType getCell(int x, int y) const;
 	void setCell(int x, int y, CellType type);
+
+	bool isWalkable(int x, int y) const;
 };
