@@ -14,4 +14,6 @@ public:
 	void drawGrid(sf::RenderWindow& window, const Grid& grid);
 
 	void drawPlayer(sf::RenderWindow& window, int x, int y);
+
+	void drawGoal(sf::RenderWindow& window, int x, int y);
 };

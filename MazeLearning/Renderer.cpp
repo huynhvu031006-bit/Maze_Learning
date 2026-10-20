@@ -36,7 +36,7 @@ void Renderer::drawGrid(sf::RenderWindow& window, const Grid& grid)
 void Renderer::drawPlayer(sf::RenderWindow& window, int x, int y)
 {
 	sf::RectangleShape player;
-	player.setSize({ cellSize * 0.6f, cellSize * 0.6f, });
+	player.setSize({ cellSize * 0.6f, cellSize * 0.6f });
 
 	player.setPosition({
 		x * cellSize + cellSize * 0.2f,
@@ -45,4 +45,17 @@ void Renderer::drawPlayer(sf::RenderWindow& window, int x, int y)
 
 	player.setFillColor(sf::Color(0, 180, 0));
 	window.draw(player);
+}
+
+void Renderer::drawGoal(sf::RenderWindow& window, int x, int y)
+{
+	sf::RectangleShape goal;
+	goal.setSize({ cellSize * 0.8f, cellSize * 0.8f });
+
+	goal.setPosition({
+		x * cellSize + cellSize * 0.1f,
+		y * cellSize + cellSize * 0.1f
+		});
+	goal.setFillColor(sf::Color::Red);
+	window.draw(goal);
 }
