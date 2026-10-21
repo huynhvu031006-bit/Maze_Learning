@@ -27,7 +27,7 @@ void Renderer::drawGrid(sf::RenderWindow& window, const Grid& grid)
 			else
 			{
 				cell.setFillColor(sf::Color::White);
-			}	
+			}
 			window.draw(cell);
 		}
 	}
@@ -60,18 +60,34 @@ void Renderer::drawGoal(sf::RenderWindow& window, int x, int y)
 	window.draw(goal);
 }
 
-void Renderer::drawPath(sf::RenderWindow& window,const std::vector<Pos>& path)
+void Renderer::drawPath(sf::RenderWindow& window, const std::vector<Pos>& path)
 {
 	for (const Pos& p : path)
 	{
 		sf::RectangleShape dot;
 		dot.setSize({ cellSize * 0.3f, cellSize * 0.3f });
-		
+
 		dot.setPosition({
 			p.x * cellSize + cellSize * 0.35f,
 			p.y * cellSize + cellSize * 0.35f
 			});
 		dot.setFillColor(sf::Color(255, 160, 0));
 		window.draw(dot);
+	}
+}
+
+void Renderer::drawVisited(sf::RenderWindow& window, const std::vector<Pos>& visited, int count)
+{
+	for (int i = 0; i < count && i < (int)visited.size(); i++)
+	{
+		sf::RectangleShape cell;
+		cell.setSize({ cellSize, cellSize });
+
+		cell.setPosition({
+			visited[i].x * cellSize,
+			visited[i].y * cellSize
+			});
+		cell.setFillColor(sf::Color(150, 200, 255));
+		window.draw(cell);
 	}
 }

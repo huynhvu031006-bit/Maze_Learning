@@ -2,8 +2,10 @@
 #include <queue>
 #include <algorithm>
 
-std::vector<Pos> Pathfinder::bfs(const Grid& grid, Pos start, Pos goal)
+PathResult Pathfinder::bfs(const Grid& grid, Pos start, Pos goal)
 {
+	PathResult result;
+
 	int w = grid.getWidth();
 	int h = grid.getHeight();
 
@@ -23,6 +25,8 @@ std::vector<Pos> Pathfinder::bfs(const Grid& grid, Pos start, Pos goal)
 	{
 		Pos cur = q.front();
 		q.pop();
+
+		result.visited.push_back(cur);
 
 		if (cur.x == goal.x && cur.y == goal.y)
 		{
@@ -44,17 +48,16 @@ std::vector<Pos> Pathfinder::bfs(const Grid& grid, Pos start, Pos goal)
 		}
 	}
 
-	std::vector<Pos> path;
 	if (!found)
-		return path;
+		return result;
 	Pos p = goal;
 	while (!(p.x == start.x && p.y == start.y))
 	{
-		path.push_back(p);
+		result.path.push_back(p);
 		p = parent[p.y * w + p.x];
 	}
-	path.push_back(start);
+	result.path.push_back(start);
 
-	std::reverse(path.begin(), path.end());
-	return path;
+	std::reverse(result.path.begin(), result.path.end());
+	return result;
 }

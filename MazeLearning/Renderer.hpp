@@ -18,4 +18,6 @@ public:
 	void drawGoal(sf::RenderWindow& window, int x, int y);
 
 	void drawPath(sf::RenderWindow& window, const std::vector<Pos>& path);
+
+	void drawVisited(sf::RenderWindow& window, const std::vector<Pos>& visited, int count);
 };

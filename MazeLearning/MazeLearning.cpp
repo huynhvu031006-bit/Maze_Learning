@@ -24,7 +24,19 @@ int main()
 	int goalY = grid.getHeight() - 2;
 
 	bool won = false;
-	std::vector<Pos> path;
+	
+	PathResult result;
+	int shown = 0;
+
+	sf::Clock clock;
+	float timer = 0.0f;
+	const float stepTime = 0.03f;
+
+	auto reserSearch = [&]()
+		{
+			result = PathResult{};
+			shown = 0;
+		};
 
 	while (window.isOpen())
 	{
@@ -42,7 +54,7 @@ int main()
 					playerX = 1;
 					playerY = 1;
 					won = false;
-					path.clear();
+					reserSearch();
 					window.setTitle("Maze learning");
 				}
 				else if (key->code == sf::Keyboard::Key::P)
@@ -51,12 +63,16 @@ int main()
 					playerX = 1;
 					playerY = 1;
 					won = false;
-					path.clear();
+					reserSearch();
 					window.setTitle("Maze Learning");
 				}
 				else if (key->code == sf::Keyboard::Key::B)
 				{
-					path = pathfinder.bfs(grid, Pos{ playerX, playerY }, Pos{ goalX, goalY });
+					result = pathfinder.bfs(grid, Pos{ playerX, playerY }, Pos{ goalX, goalY });
+					shown = 0;
+
+					window.setTitle("BFS: duyet " + std::to_string(result.visited.size())
+						+ " o, duong di dai " + std::to_string(result.path.size()) + " o");
 				}
 
 				int newX = playerX;
@@ -73,7 +89,7 @@ int main()
 				{
 					playerX = newX;
 					playerY = newY;
-					path.clear();
+					reserSearch();
 				}
 
 				if (playerX == goalX && playerY == goalY)
@@ -83,9 +99,22 @@ int main()
 				}
 			}
 		}
+
+		timer += clock.restart().asSeconds();
+		if (timer >= stepTime)
+		{
+			timer = 0.0f;
+			if (shown < (int)result.visited.size())
+				shown++;
+		}
+
 		window.clear(sf::Color::White);
 		renderer.drawGrid(window, grid);
-		renderer.drawPath(window, path);
+		renderer.drawVisited(window, result.visited, shown);
+
+		if (shown >= (int)result.visited.size())
+			renderer.drawPath(window, result.path);
+
 		renderer.drawGoal(window, goalX, goalY);
 		renderer.drawPlayer(window, playerX, playerY);
 		window.display();
