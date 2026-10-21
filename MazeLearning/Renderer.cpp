@@ -59,3 +59,19 @@ void Renderer::drawGoal(sf::RenderWindow& window, int x, int y)
 	goal.setFillColor(sf::Color::Red);
 	window.draw(goal);
 }
+
+void Renderer::drawPath(sf::RenderWindow& window,const std::vector<Pos>& path)
+{
+	for (const Pos& p : path)
+	{
+		sf::RectangleShape dot;
+		dot.setSize({ cellSize * 0.3f, cellSize * 0.3f });
+		
+		dot.setPosition({
+			p.x * cellSize + cellSize * 0.35f,
+			p.y * cellSize + cellSize * 0.35f
+			});
+		dot.setFillColor(sf::Color(255, 160, 0));
+		window.draw(dot);
+	}
+}

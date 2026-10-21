@@ -16,4 +16,6 @@ public:
 	void drawPlayer(sf::RenderWindow& window, int x, int y);
 
 	void drawGoal(sf::RenderWindow& window, int x, int y);
+
+	void drawPath(sf::RenderWindow& window, const std::vector<Pos>& path);
 };

@@ -1,7 +1,9 @@
 ﻿#include "Grid.hpp"
 #include "Renderer.hpp"
 #include "MazeGenerator.hpp"
+#include "Pathfinder.hpp"
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 
 int main()
@@ -13,6 +15,7 @@ int main()
 	generator.generateDFS(grid);
 
 	Renderer renderer(28.0f);
+	Pathfinder pathfinder;
 
 	int playerX = 1;
 	int playerY = 1;
@@ -21,6 +24,7 @@ int main()
 	int goalY = grid.getHeight() - 2;
 
 	bool won = false;
+	std::vector<Pos> path;
 
 	while (window.isOpen())
 	{
@@ -38,6 +42,7 @@ int main()
 					playerX = 1;
 					playerY = 1;
 					won = false;
+					path.clear();
 					window.setTitle("Maze learning");
 				}
 				else if (key->code == sf::Keyboard::Key::P)
@@ -46,7 +51,12 @@ int main()
 					playerX = 1;
 					playerY = 1;
 					won = false;
+					path.clear();
 					window.setTitle("Maze Learning");
+				}
+				else if (key->code == sf::Keyboard::Key::B)
+				{
+					path = pathfinder.bfs(grid, Pos{ playerX, playerY }, Pos{ goalX, goalY });
 				}
 
 				int newX = playerX;
@@ -57,10 +67,13 @@ int main()
 				else if (key->code == sf::Keyboard::Key::Left) newX--;
 				else if (key->code == sf::Keyboard::Key::Right) newX++;
 
-				if (!won && grid.isWalkable(newX, newY))
+				bool daDiChuyen = (newX != playerX || newY != playerY);
+
+				if (!won && daDiChuyen && grid.isWalkable(newX, newY))
 				{
 					playerX = newX;
 					playerY = newY;
+					path.clear();
 				}
 
 				if (playerX == goalX && playerY == goalY)
@@ -72,6 +85,7 @@ int main()
 		}
 		window.clear(sf::Color::White);
 		renderer.drawGrid(window, grid);
+		renderer.drawPath(window, path);
 		renderer.drawGoal(window, goalX, goalY);
 		renderer.drawPlayer(window, playerX, playerY);
 		window.display();

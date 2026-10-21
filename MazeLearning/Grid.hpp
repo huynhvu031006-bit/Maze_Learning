@@ -2,6 +2,8 @@
 
 #include <vector>
 
+struct Pos { int x, y; };
+
 enum class CellType
 {
 	Wall,

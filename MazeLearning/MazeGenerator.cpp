@@ -2,8 +2,6 @@
 #include <stack>
 #include <vector>
 
-struct Pos { int x, y; };
-
 MazeGenerator::MazeGenerator()
 	: rng(std::random_device{}())
 {
