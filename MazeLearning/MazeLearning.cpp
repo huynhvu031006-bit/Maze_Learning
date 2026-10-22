@@ -3,6 +3,7 @@
 #include "MazeGenerator.hpp"
 #include "Pathfinder.hpp"
 #include <SFML/Graphics.hpp>
+#include <string>
 #include <vector>
 
 
@@ -12,7 +13,15 @@ int main()
 
 	Grid grid(29, 29);
 	MazeGenerator generator;
+
+	auto decorate = [&]()
+		{
+			generator.addLoops(grid, 30);
+			generator.addMud(grid, 0);
+		};
+
 	generator.generateDFS(grid);
+	decorate();
 
 	Renderer renderer(28.0f);
 	Pathfinder pathfinder;
@@ -38,6 +47,13 @@ int main()
 			shown = 0;
 		};
 
+	auto showStats = [&](const std::string& name)
+		{
+			window.setTitle(name + ": duyet " + std::to_string(result.visited.size())
+				+ " o, duong di " + std::to_string(result.path.size())
+				+ "o, chi phi " + std::to_string(result.cost));
+		};
+
 	while (window.isOpen())
 	{
 		while (const std::optional event = window.pollEvent())
@@ -51,6 +67,7 @@ int main()
 				if (key->code == sf::Keyboard::Key::D)
 				{
 					generator.generateDFS(grid);
+					decorate();
 					playerX = 1;
 					playerY = 1;
 					won = false;
@@ -60,6 +77,7 @@ int main()
 				else if (key->code == sf::Keyboard::Key::P)
 				{
 					generator.generatePrim(grid);
+					decorate();
 					playerX = 1;
 					playerY = 1;
 					won = false;
@@ -70,9 +88,13 @@ int main()
 				{
 					result = pathfinder.bfs(grid, Pos{ playerX, playerY }, Pos{ goalX, goalY });
 					shown = 0;
-
-					window.setTitle("BFS: duyet " + std::to_string(result.visited.size())
-						+ " o, duong di dai " + std::to_string(result.path.size()) + " o");
+					showStats("BFS");
+				} 
+				else if (key->code == sf::Keyboard::Key::J)
+				{
+					result = pathfinder.dijkstra(grid, Pos{ playerX, playerY }, Pos{ goalX, goalY });
+					shown = 0;
+					showStats("Dijkstra");
 				}
 
 				int newX = playerX;

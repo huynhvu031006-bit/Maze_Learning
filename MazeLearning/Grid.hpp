@@ -7,7 +7,8 @@ struct Pos { int x, y; };
 enum class CellType
 {
 	Wall,
-	Path
+	Path,
+	Mud
 };
 
 class Grid
@@ -28,4 +29,6 @@ public:
 	void setCell(int x, int y, CellType type);
 
 	bool isWalkable(int x, int y) const;
+
+	int getCost(int x, int y) const;
 };

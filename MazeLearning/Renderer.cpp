@@ -20,14 +20,16 @@ void Renderer::drawGrid(sf::RenderWindow& window, const Grid& grid)
 				y * cellSize
 				});
 
-			if (grid.getCell(x, y) == CellType::Wall)
+			CellType type = grid.getCell(x, y);
+
+			if (type == CellType::Wall)
 			{
 				cell.setFillColor(sf::Color::Black);
 			}
+			else if (type == CellType::Mud)
+				cell.setFillColor(sf::Color(139, 90, 43));
 			else
-			{
-				cell.setFillColor(sf::Color::White);
-			}
+					cell.setFillColor(sf::Color::White);
 			window.draw(cell);
 		}
 	}
@@ -87,7 +89,7 @@ void Renderer::drawVisited(sf::RenderWindow& window, const std::vector<Pos>& vis
 			visited[i].x * cellSize,
 			visited[i].y * cellSize
 			});
-		cell.setFillColor(sf::Color(150, 200, 255));
+		cell.setFillColor(sf::Color(80, 140, 255, 110));
 		window.draw(cell);
 	}
 }

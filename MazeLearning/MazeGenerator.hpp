@@ -13,4 +13,7 @@ public:
 
 	void generateDFS(Grid& grid);
 	void generatePrim(Grid& grid);
+
+	void addLoops(Grid& grid, int count);
+	void addMud(Grid& grid, int count);
 };

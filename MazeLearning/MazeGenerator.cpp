@@ -118,3 +118,56 @@ void MazeGenerator::generatePrim(Grid& grid)
 		addFrontier(cur.x, cur.y);
 	}
 }
+
+void MazeGenerator::addLoops(Grid& grid, int count)
+{
+	int w = grid.getWidth();
+	int h = grid.getHeight();
+
+	std::uniform_int_distribution<int> distX(1, w - 2);
+	std::uniform_int_distribution<int> distY(1, h - 2);
+
+	int added = 0;
+	int attempts = 0;
+
+	while (added < count && attempts < 10000)
+	{
+		attempts++;
+		int x = distX(rng);
+		int y = distY(rng);
+
+		if ((x + y) % 2 == 1 && grid.getCell(x, y) == CellType::Wall)
+		{
+			grid.setCell(x, y, CellType::Path);
+			added++;
+		}
+	}
+}
+
+void MazeGenerator::addMud(Grid& grid, int count)
+{
+	int w = grid.getWidth();
+	int h = grid.getHeight();
+
+	std::uniform_int_distribution<int> distX(1, w - 2);
+	std::uniform_int_distribution<int> distY(1, h - 2);
+
+	int added = 0;
+	int attempts = 0;
+
+	while (added < count && attempts < 10000)
+	{
+		attempts++;
+		int x = distX(rng);
+		int y = distY(rng);
+
+		bool laXuatPhat = (x == 1 && y == 1); 
+		bool laDich = (x == w - 2 && y == h - 2);
+
+		if (grid.getCell(x, y) == CellType::Path && !laXuatPhat && !laDich)
+		{
+			grid.setCell(x, y, CellType::Mud);
+			added++;
+		}
+	}
+}

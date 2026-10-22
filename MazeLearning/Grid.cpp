@@ -29,5 +29,12 @@ bool Grid::isWalkable(int x, int y) const
 {
 	if (x < 0 || x >= width || y < 0 || y >= height)
 		return false;
-	return cells[y * width + x] == CellType::Path;
+	return cells[y * width + x] != CellType::Wall;
+}
+
+int Grid::getCost(int x, int y) const
+{
+	if (cells[y * width + x] == CellType::Mud)
+		return 10;
+	return 1;
 }
