@@ -96,6 +96,12 @@ int main()
 					shown = 0;
 					showStats("Dijkstra");
 				}
+				else if (key->code == sf::Keyboard::Key::A)
+				{
+					result = pathfinder.astar(grid, Pos{ playerX, playerY }, Pos{ goalX, goalY });
+					shown = 0;
+					showStats("A*");
+				}
 
 				int newX = playerX;
 				int newY = playerY;

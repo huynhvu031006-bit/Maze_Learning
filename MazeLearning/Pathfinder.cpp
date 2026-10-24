@@ -2,6 +2,7 @@
 #include <queue>
 #include <functional>
 #include <algorithm>
+#include <cstdlib>
 
 static std::vector<Pos> buildPath(const std::vector<Pos>& parent, int w, Pos start, Pos goal)
 {
@@ -158,6 +159,97 @@ PathResult Pathfinder::dijkstra(const Grid& grid, Pos start, Pos goal)
 	if (!found)
 		return result;
 	result.path = buildPath(parent, w, start, goal);;
+	result.cost = calcCost(grid, result.path);
+	return result;
+}
+
+
+ //-- a* --
+static int heuristic(Pos a, Pos b)
+{
+	return std::abs(a.x - b.x) + std::abs(a.y - b.y);
+}
+
+struct AStarNode
+{
+	int f;
+	Pos pos;
+
+	bool operator>(const AStarNode& other) const
+	{
+		return f > other.f;
+	}
+};
+
+PathResult Pathfinder::astar(const Grid& grid, Pos start, Pos goal)
+{
+	PathResult result;
+
+	int w = grid.getWidth();
+	int h = grid.getHeight();
+
+	const int INF = 1000000000;
+	std::vector<int> gCost(w * h, INF);
+	std::vector<bool> done(w * h, false);
+	std::vector<Pos> parent(w * h, Pos{ -1, -1 });
+
+	int dx[4] = { 0, 0, -1, 1 };
+	int dy[4] = { -1, 1, 0, 0 };
+
+	std::priority_queue < AStarNode, std::vector<AStarNode>, std::greater<AStarNode>> pq;
+
+	gCost[start.y * w + start.x] = 0;
+	pq.push(AStarNode{ heuristic(start, goal), start });
+
+	bool found = false;
+
+	while (!pq.empty())
+	{
+		AStarNode cur = pq.top();
+		pq.pop();
+
+		int ci = cur.pos.y * w + cur.pos.x;
+
+		if (done[ci])
+			continue;
+		done[ci] = true;
+
+		result.visited.push_back(cur.pos);
+
+		if (cur.pos.x == goal.x && cur.pos.y == goal.y)
+		{
+			found = true;
+			break;
+		}
+
+		for (int i = 0; i < 4; i++)
+		{
+			int nx = cur.pos.x + dx[i];
+			int ny = cur.pos.y + dy[i];
+
+			if (!grid.isWalkable(nx, ny))
+				continue;
+
+			int ni = ny * w + nx;
+			if (done[ni])
+				continue;
+
+			int newG = gCost[ci] + grid.getCost(nx, ny);
+			
+			if (newG < gCost[ni])
+			{
+				gCost[ni] = newG;
+				parent[ni] = cur.pos;
+
+				int f = newG + heuristic(Pos{ nx, ny }, goal);
+				pq.push(AStarNode{ f, Pos{nx, ny } });
+			}
+		}
+	}
+
+	if (!found)
+		return result;
+	result.path = buildPath(parent, w, start, goal);
 	result.cost = calcCost(grid, result.path);
 	return result;
 }

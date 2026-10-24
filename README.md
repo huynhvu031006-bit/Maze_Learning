@@ -14,22 +14,17 @@ Tìm hiểu cách xây dựng game 2D và các thuật toán tìm đường.
 
 ## Tiến độ
 
-### Day 3
+### Day 6
 Ý tưởng
 
-BFS đếm số bước. Dijkstra cộng chi phí: ô đất thường tốn 1, ô bùn tốn 10. Xét mê cung nhỏ này, đi từ S tới G:
+Dijkstra giống giọt nước loang đều ra mọi hướng. Nó chỉ biết “đã đi tốn bao nhiêu” nên cứ mở rộng ô rẻ nhất, kể cả ô nằm ngược hướng với đích.
 
-#######
-#S.M.G#
-#.###.#
-#.....#
-#######
-Đường trên (qua bùn M): 4 bước, chi phí 1 + 10 + 1 + 1 = 13.
-Đường dưới (vòng xuống): 8 bước, chi phí 8.
+A* thêm một “cái la bàn”: ước lượng “từ ô này tới đích còn khoảng bao xa”. Nó ưu tiên ô vừa rẻ vừa có vẻ gần đích.
+Mỗi ô có 3 con số:
 
-BFS chọn đường trên vì ít bước hơn. Dijkstra chọn đường dưới vì rẻ hơn.
+Ký hiệu	       Ý nghĩa	                                                                     Ví dụ lái xe
+g	           chi phí đã đi từ xuất phát tới ô này (đúng như dist của Dijkstra)	         đã chạy 20 km
+h	           ước lượng chi phí còn lại tới đích                                          	còn cách đích 5 km theo đường chim bay
+f = g + h	   tổng ước lượng của cả hành trình                                            	dự kiến 25 km
 
-Dijkstra giống BFS, chỉ đổi 2 chỗ:
-
-queue đổi thành priority queue: lấy ra ô có tổng chi phí nhỏ nhất trước, thay vì ô vào sớm nhất.
-Mỗi ô nhớ thêm “đi tới đây tốn tổng cộng bao nhiêu” (gọi là dist).
+A* luôn lấy ra ô có f nhỏ nhất. Dijkstra chính là A* khi h = 0 (không có la bàn).

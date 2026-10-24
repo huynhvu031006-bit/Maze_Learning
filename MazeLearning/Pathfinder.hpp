@@ -15,4 +15,5 @@ class Pathfinder
 public:
 	PathResult bfs(const Grid& grid, Pos start, Pos goal);
 	PathResult dijkstra(const Grid& grid, Pos start, Pos goal);
+	PathResult astar(const Grid& grid, Pos start, Pos goal);
 };
