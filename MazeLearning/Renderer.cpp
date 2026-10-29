@@ -1,8 +1,9 @@
 #include "Renderer.hpp"
 
 Renderer::Renderer(float cellSize)
-	: cellSize(cellSize)
+	: cellSize(cellSize), fontLoaded(false)
 {
+	fontLoaded = font.openFromFile("C:/Windows/Fonts/arial.ttf");
 }
 
 void Renderer::drawGrid(sf::RenderWindow& window, const Grid& grid)
@@ -92,4 +93,32 @@ void Renderer::drawVisited(sf::RenderWindow& window, const std::vector<Pos>& vis
 		cell.setFillColor(sf::Color(80, 140, 255, 110));
 		window.draw(cell);
 	}
+}
+
+void Renderer::drawHint(sf::RenderWindow& window, const std::vector<Pos>& hint) 
+{
+	float radius = cellSize * 0.2f;
+
+	for (const Pos& p : hint)
+	{
+		sf::CircleShape dot(radius);
+
+		dot.setPosition({
+			p.x * cellSize + cellSize * 0.5f - radius,
+			p.y * cellSize + cellSize * 0.5f - radius
+			});
+		dot.setFillColor(sf::Color(160, 60, 200));
+		window.draw(dot);
+	}
+}
+
+void Renderer::drawText(sf::RenderWindow& window, const std::string& str, float x, float y, unsigned int size, sf::Color color)
+{
+	if (!fontLoaded)
+		return;
+
+	sf::Text text(font, str, size);
+	text.setPosition({ x, y });
+	text.setFillColor(color);
+	window.draw(text);
 }

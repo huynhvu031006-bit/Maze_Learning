@@ -14,26 +14,9 @@ Tìm hiểu cách xây dựng game 2D và các thuật toán tìm đường.
 
 ## Tiến độ
 
-### Day 6
-Ý tưởng
-
-Dọn nhà
-
-main ôm quá nhiều code 
-sau khi dọn còn 
-main () 
-{
-    game game1;
-    game1.run();
-    return 0;
-}
-
-và game.hpp chia thành các hàm nhỏ có tên rõ ràng.
-game()
-run();
-handleEvents();
-handleKey();
-updat();
-render();
-newMaze();
-resetSearch(), showStats();
+### Day 7 
+Ý tưởng:
+gợi ý đường đi:
+Đã có A* tìm đường rẽ nhất từ một vị trí tới đích:
+- Mỗi lần nhân vật đứng chỗ mới, chạy A* đến chỗ đó.
+- Chỉ vẽ 10 ô đầu của đường tìm được, bằng chấm tím.

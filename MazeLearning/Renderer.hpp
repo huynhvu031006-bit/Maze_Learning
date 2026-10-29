@@ -2,11 +2,15 @@
 
 #include <SFML/Graphics.hpp>
 #include "Grid.hpp"
+#include <vector>
+#include <string>
 
 class Renderer
 {
 private:
 	float cellSize;
+	sf::Font font;
+	bool fontLoaded;
 
 public:
 	Renderer(float cellSize);
@@ -20,4 +24,8 @@ public:
 	void drawPath(sf::RenderWindow& window, const std::vector<Pos>& path);
 
 	void drawVisited(sf::RenderWindow& window, const std::vector<Pos>& visited, int count);
+
+	void drawHint(sf::RenderWindow& window, const std::vector<Pos>& hint);
+
+	void drawText(sf::RenderWindow& window, const std::string& str, float x, float y, unsigned int size, sf::Color color);
 };

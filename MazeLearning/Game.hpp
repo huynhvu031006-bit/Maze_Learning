@@ -24,9 +24,15 @@ private:
 	int goalY;
 	bool won;
 
+	//-gợi ý đường đi
+	bool showHint;
+	std::vector<Pos> hint;
+	const int hintStep = 10;
+
 	//-kết quả tìm đường và phát lại
 	PathResult result;
 	int shown;
+	std::string algoName;
 	
 	sf::Clock clock;
 	float timer;
@@ -35,11 +41,13 @@ private:
 	//-các hàm nội bộ
 	void newMaze(bool usePrim);
 	void resetSearch();
-	void showStarts(const std::string& name);
+	void updateHint();
+
 	void handleEvents();
 	void handleKey(sf::Keyboard::Key code);
 	void update();
 	void render();
+	void drawPanel();
 
 public:
 	game();

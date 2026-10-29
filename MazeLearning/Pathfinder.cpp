@@ -20,7 +20,7 @@ static std::vector<Pos> buildPath(const std::vector<Pos>& parent, int w, Pos sta
 	return path;
 }
 
-static int calcCost(const Grid& grid, const std::vector<Pos> path)
+static int calcCost(const Grid& grid, const std::vector<Pos>& path)
 {
 	int total = 0;
 	for (int i = 1; i < (int)path.size(); i++)
@@ -158,7 +158,7 @@ PathResult Pathfinder::dijkstra(const Grid& grid, Pos start, Pos goal)
 	}
 	if (!found)
 		return result;
-	result.path = buildPath(parent, w, start, goal);;
+	result.path = buildPath(parent, w, start, goal);
 	result.cost = calcCost(grid, result.path);
 	return result;
 }
