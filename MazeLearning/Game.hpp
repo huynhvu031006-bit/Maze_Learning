@@ -7,6 +7,14 @@
 #include "MazeGenerator.hpp"
 #include "Pathfinder.hpp"
 
+struct SearchStats
+{
+	std::string name;
+	int visited;
+	int pathLength;
+	int cost;
+};
+
 class game
 {
 private:
@@ -33,15 +41,18 @@ private:
 	PathResult result;
 	int shown;
 	std::string algoName;
+
+	std::vector<SearchStats> compare;
 	
 	sf::Clock clock;
 	float timer;
-	const float stepTime = 0.03f;
+	float stepTime = 0.03f;
 
 	//-các hàm nội bộ
 	void newMaze(bool usePrim);
 	void resetSearch();
 	void updateHint();
+	void runCompare();
 
 	void handleEvents();
 	void handleKey(sf::Keyboard::Key code);

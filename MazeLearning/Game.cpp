@@ -64,6 +64,28 @@ void game::updateHint()
 		hint.push_back(r.path[i]);
 }
 
+void game::runCompare()
+{
+	Pos start{ playerX, playerY };
+	Pos goal{ goalX, goalY };
+
+	compare.clear();
+
+	auto add = [&](const std::string& name, const PathResult& r)
+		{
+			compare.push_back(SearchStats{
+				name,
+				(int)r.visited.size(),
+				(int)r.path.size(),
+				r.cost
+
+				});
+		};
+	add("BFS", pathfinder.bfs(grid, start, goal));
+	add("Dijkstra", pathfinder.dijkstra(grid, start, goal));
+	add("A*", pathfinder.astar(grid, start, goal));
+}
+
 void game::handleEvents()
 {
 	while (const std::optional event = window.pollEvent())
@@ -117,6 +139,22 @@ void game::handleKey(sf::Keyboard::Key code)
 		showHint = !showHint;
 		updateHint();
 	}
+	else if (code == sf::Keyboard::Key::C)
+	{
+		runCompare();
+	}
+	else if (code == sf::Keyboard::Key::Equal || code == sf::Keyboard::Key::Add)
+	{
+		stepTime /= 1.5f;
+		if (stepTime < 0.002f)
+			stepTime = 0.002f;
+	}
+	else if (code == sf::Keyboard::Key::Hyphen || code == sf::Keyboard::Key::Subtract)
+	{
+		stepTime *= 1.5f;
+		if (stepTime < 0.3f)
+			stepTime = 0.3f;
+	}
 
 	//-di chuyển nhân vật
 	int newX = playerX;
@@ -149,11 +187,18 @@ void game::handleKey(sf::Keyboard::Key code)
 void game::update()
 {
 	timer += clock.restart().asSeconds();
-	if (timer >= stepTime)
+
+	int total = (int)result.visited.size();
+
+	while (timer >= stepTime && shown < total)
+	{
+		timer -= stepTime;
+		shown++;
+	}
+
+	if (shown >= total)
 	{
 		timer = 0.0f;
-		if (shown < (int)result.visited.size())
-			shown++;
 	}
 }
 
@@ -205,6 +250,29 @@ void game::drawPanel()
 	{
 		renderer.drawText(window, line, x, y, 18, ink);
 		y += 26.0f;
+	}
+
+	if (!compare.empty())
+	{
+		float cy = 300.0f;
+
+		renderer.drawText(window, "So sanh 3 thuat toan", x, cy, 16, ink);
+		cy += 22.0f;
+
+		renderer.drawText(window, "Ten", x, cy, 14, gray);
+		renderer.drawText(window, "Duyet", x + 100.0f, cy, 14, gray);
+		renderer.drawText(window, "Dai", x + 170.0f, cy, 14, gray);
+		renderer.drawText(window, "Phi", x + 225.0f, cy, 14, gray);
+		cy += 22.0f;
+
+		for (const SearchStats& s : compare)
+		{
+			renderer.drawText(window, s.name, x, cy, 16, ink);
+			renderer.drawText(window, std::to_string(s.visited), x + 100.0f, cy, 16, ink);
+			renderer.drawText(window, std::to_string(s.pathLength), x + 170.0f, cy, 16, ink);
+			renderer.drawText(window, std::to_string(s.cost), x + 225.0f, cy, 16, ink);
+			cy += 24.0f;
+		}
 	}
 
 	std::vector<std::string> guide = {

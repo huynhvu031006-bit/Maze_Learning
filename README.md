@@ -14,9 +14,6 @@ Tìm hiểu cách xây dựng game 2D và các thuật toán tìm đường.
 
 ## Tiến độ
 
-### Day 7 
-Ý tưởng:
-gợi ý đường đi:
-Đã có A* tìm đường rẽ nhất từ một vị trí tới đích:
-- Mỗi lần nhân vật đứng chỗ mới, chạy A* đến chỗ đó.
-- Chỉ vẽ 10 ô đầu của đường tìm được, bằng chấm tím.
+### Day 8
+
+làm bảng so sánh (phím C): chạy cả 3 thuật toán từ chỗ nhân vật đang đứng, hiện kết quả thành một bảng nhỏ bên phải:
